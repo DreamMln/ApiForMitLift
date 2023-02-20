@@ -34,6 +34,13 @@ namespace ApiForMitLift
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiForMitLift", Version = "v1" });
             });
+            // CORS add to restbik
+            //vi har lavet en policy
+            services.AddCors(options => options.AddPolicy("allowAll",
+                builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()));
+
             //DBContext tilføjet
             services.AddDbContext<CorolabPraktikDBContext>(opt => opt.UseSqlServer(CorolabPraktikDBContext.Connectionstring));
 
@@ -45,13 +52,19 @@ namespace ApiForMitLift
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiForMitLift v1"));
+               
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiForMitLift v1"));
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            // CORS allowall
+            //This will define the default CORS policy for your REST service.
+            //In order to specify individual CORS policies for the individual methods in your controller class, you can add the following tag to the methed:
+            //[EnableCors("allowAll")]
+            app.UseCors("allowAll");
 
             app.UseAuthorization();
 
