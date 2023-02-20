@@ -52,6 +52,7 @@ namespace ApiForMitLift.Manager
             return result.ToList();
         }
     }
+
         //Vi finder en specifik account ud fra accountets id
         public Account GetAccountById(int id)
         {
