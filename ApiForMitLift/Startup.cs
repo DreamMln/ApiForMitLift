@@ -44,10 +44,6 @@ namespace ApiForMitLift
             //DBContext tilføjet
             services.AddDbContext<CorolabPraktikDBContext>(opt => opt.UseSqlServer(CorolabPraktikDBContext.Connectionstring));
 
-            services.AddControllers().AddJsonOptions(x =>
-            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
