@@ -29,7 +29,7 @@ namespace ApiForMitLift.Models
         public string Model { get; set; }
         public string FuelType { get; set; }
         public bool IsFull { get; set; }
-
+        //test
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("Cars")]
         public virtual Account Account { get; set; }
