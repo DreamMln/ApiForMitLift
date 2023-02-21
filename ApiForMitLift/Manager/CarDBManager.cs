@@ -67,12 +67,10 @@ namespace ApiForMitLift.Manager
         //Her tilføjer vi en ny account til vores database tabel. Værdierne til hvad Account indeholder er i vores Account.cs klasse i model folderen.
         public Account AddAccount(Account addAccount)
         {
-            using (var context = _corolabContext)
-            {
-                var accounts = context.Accounts.Add(addAccount);
+                _corolabContext.Accounts.Add(addAccount);
                 _corolabContext.SaveChanges();
                 return addAccount;
-            }
+            
         }
 
         public Car AddCar(Car addCar)
