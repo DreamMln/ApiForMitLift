@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ApiForMitLift.Models
 {
     [Table("Car")]
-    public class Car
+    public partial class Car
     {
         [Key]
         [Column("CarID")]
@@ -31,7 +31,7 @@ namespace ApiForMitLift.Models
         public bool IsFull { get; set; }
 
         [ForeignKey(nameof(AccountId))]
-        [InverseProperty("car")]
+        [InverseProperty("Cars")]
         public virtual Account Account { get; set; }
     }
 }

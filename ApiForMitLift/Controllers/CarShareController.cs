@@ -119,6 +119,12 @@ namespace ApiForMitLift.Controllers
             Account createdAccount = _dbManager.AddAccount(newAccount);
             return Ok(createdAccount);
         }
-
+       
+        [HttpPost]
+        public ActionResult<Car> PostCar([FromBody] Car newCar)
+        {
+            Car createdCar = _dbManager.AddCar(newCar);
+            return Ok(createdCar);
+        }
     }
 }

@@ -74,16 +74,19 @@ namespace ApiForMitLift.Manager
                 return addAccount;
             }
         }
-
+        //car from body car, accouúntid, slå account op for at finde - accountid som en int
+        //kald getbyid account
         public Car AddCar(Car addCar)
         {
             Account account = GetAccountById(addCar.AccountId);
-            if (addCar.AccountId == account.AccountId)
+
+            if (account == null)
             {
-                _corolabContext.Add(addCar);
-                _corolabContext.SaveChanges();
-                return addCar;
+                return null;
             }
+            account.Cars.Add(addCar);
+            addCar.Account = account;
+            _corolabContext.SaveChanges();
             return addCar;
         }
         //Rental Car Delete
