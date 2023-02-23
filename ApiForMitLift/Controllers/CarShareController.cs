@@ -163,11 +163,58 @@ namespace ApiForMitLift.Controllers
             return Ok(carRides);
         }
 
-        
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        [Route("/Api/CarRides/{id}")]
+        // GET: CarShareController
+        public ActionResult<CarRide> GetCarRideByID(int id)
+        {
+            CarRide carRide = _dbManager.GetCarRideById(id);
 
-        
+            if (carRide == null)
+            {
+                return NotFound("No car with this id: " + id);
+            }
+            return Ok(carRide);
+        }
 
-        
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        // DELETE api/<CarShareController>/5
+        [HttpDelete]
+        [Route("/Api/CarRides/{id}")]
+        public ActionResult<CarRide> DeleteCarRide(int id)
+        {
+            CarRide result = _dbManager.DeleteCarRide(id);
+            if (result == null)
+            {
+                return NotFound("There is no cars with, ID" + id);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("/Api/CarRides")]
+        public ActionResult<CarRide> PostCarRide([FromBody] CarRide newCarRide)
+        {
+            CarRide createdCarRide = _dbManager.AddCarRide(newCarRide);
+            return Ok(createdCarRide);
+        }
+
+        // PUT api/<CarShareController>/5
+        [HttpPut]
+        [Route("/Api/CarRides/{id}")]
+        public CarRide PutCarRide(int id, [FromBody] CarRide value)
+        {
+            return _dbManager.UpdateCarRide(id, value);
+        }
+
+
+
+
+
+
 
     }
 }

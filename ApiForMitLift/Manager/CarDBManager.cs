@@ -148,6 +148,56 @@ namespace ApiForMitLift.Manager
             }
         }
 
+        public CarRide AddCarRide(CarRide addRide)
+        {
+            Car car = GetCarById(addRide.CarId);
+
+            if (car == null)
+            {
+                return null;
+            }
+            car.CarRides.Add(addRide);
+            addRide.Cars = car;
+            _corolabContext.SaveChanges();
+            return addRide;
+        }
+
+
+        //Vi finder en specifik bil ud fra bilens id
+        public CarRide GetCarRideById(int id)
+        {
+            return _corolabContext.CarRides.Find(id);
+        }
+
+
+
+
+        //Car Delete
+        public CarRide DeleteCarRide(int id)
+        {
+            CarRide carRide = _corolabContext.CarRides.Find(id);
+            // Car car = _corolabContext.Cars.Find(id);
+            _corolabContext.CarRides.Remove(carRide);
+            _corolabContext.SaveChanges();
+            return carRide;
+        }
+
+
+
+        ////Vi opdaterer Car og dens værdier, vi kan ikke opdatere Car.Id, da det er primary key. Det samme gælder for Account.Id, da en primary key skal være unik.
+        public CarRide UpdateCarRide(int id, CarRide updates)
+        {
+            CarRide carRide = _corolabContext.CarRides.Find(id);
+            carRide.DriveDate = updates.DriveDate;
+            carRide.StartDestination = updates.StartDestination;
+            carRide.EndDestination = updates.EndDestination;
+            carRide.Price = updates.Price;
+            carRide.AvailableSeats = updates.AvailableSeats;
+            carRide.IsFull = updates.IsFull;
+            _corolabContext.SaveChanges();
+            return carRide;
+        }
+
         
 
        
