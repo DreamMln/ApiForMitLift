@@ -24,7 +24,7 @@ namespace ApiForMitLift.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        [Route("/api/Accounts")]
+        [Route("/Api/Accounts")]
         public ActionResult<List<Account>> GetAllAccounts()
         {
             IEnumerable<Account> accounts = _dbManager.GetAllAccounts();
@@ -39,10 +39,59 @@ namespace ApiForMitLift.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
+        [Route("/Api/Accounts/{id}")]
         // GET: CarShareController
-        public ActionResult<List<Car>> GetAllCars([FromQuery] DateTime? dateTimeFilter)
+        public ActionResult<Account> GetAccountById(int id)
         {
-            IEnumerable<Car> cars = _dbManager.GetAllCars(dateTimeFilter);
+            Account account = _dbManager.GetAccountById(id);
+
+            if (account == null)
+            {
+                return NotFound("No account with this id: " + id);
+            }
+            return Ok(account);
+        }
+
+        [HttpPost]
+        [Route("/Api/Accounts")]
+        public ActionResult<Account> PostAccount([FromBody] Account newAccount)
+        {
+            Account createdAccount = _dbManager.AddAccount(newAccount);
+            return Ok(createdAccount);
+        }
+
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete]
+        [Route("/Api/Accounts/{id}")]
+        public ActionResult<Account> DeleteAccount(int id)
+        {
+            Account account = _dbManager.GetAccountById(id);
+            if (account == null)
+            {
+                return NotFound("No account with that id " + id);
+            }
+            return _dbManager.DeleteAccount(id);
+        }
+
+        [HttpPut]
+        [Route("/Api/Accounts/{id}")]
+        public Account PutAccount(int id, [FromBody] Account value)
+        {
+            if (value == null)
+            {
+                NotFound("no account with this id");
+            }
+            return _dbManager.UpdateAccount(id, value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        [Route("/Api/Cars")]
+        // GET: CarShareController
+        public ActionResult<List<Car>> GetAllCars()
+        {
+            IEnumerable<Car> cars = _dbManager.GetAllCars();
 
             if (!cars.Any())
             {
@@ -53,7 +102,8 @@ namespace ApiForMitLift.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("/Api/Cars/{id}")]
         // GET: CarShareController
         public ActionResult<Car> GetCarByID(int id)
         {
@@ -66,28 +116,11 @@ namespace ApiForMitLift.Controllers
             return Ok(car);
         }
 
-        [HttpPut]
-        [Route("/api/UpdateAccountByID/{id}")]
-        public Account PutAccount(int id, [FromBody] Account value)
-        {
-            if (value == null)
-            {
-                NotFound("no account with this id");
-            }
-            return _dbManager.UpdateAccount(id, value);
-        }
-
-        // PUT api/<CarShareController>/5
-        [HttpPut("{id}")]
-        public Car PutCar(int id, [FromBody] Car value)
-        {
-            return _dbManager.UpdateCar(id, value);
-        }
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         // DELETE api/<CarShareController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("/Api/Cars/{id}")]
         public ActionResult<Car> DeleteCar(int id)
         {
             Car result = _dbManager.DeleteCar(id);
@@ -98,33 +131,43 @@ namespace ApiForMitLift.Controllers
             return Ok(result);
         }
 
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete]
-        [Route("/api/DeleteAccount/{id}")]
-        public ActionResult<Account> DeleteAccount(int id)
-        {
-            Account account = _dbManager.GetAccountById(id);
-            if (account == null)
-            {
-                return NotFound("No account with that id " + id);
-            }
-            return _dbManager.DeleteAccount(id);
-        }
-
-
         [HttpPost]
-        [Route("/AccountPost")]
-        public ActionResult<Account> PostAccount([FromBody] Account newAccount)
-        {
-            Account createdAccount = _dbManager.AddAccount(newAccount);
-            return Ok(createdAccount);
-        }
-       
-        [HttpPost]
+        [Route("/Api/Cars")]
         public ActionResult<Car> PostCar([FromBody] Car newCar)
         {
             Car createdCar = _dbManager.AddCar(newCar);
             return Ok(createdCar);
         }
+
+        // PUT api/<CarShareController>/5
+        [HttpPut]
+        [Route("/Api/Cars/{id}")]
+        public Car PutCar(int id, [FromBody] Car value)
+        {
+            return _dbManager.UpdateCar(id, value);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        [Route("/Api/CarRides")]
+        // GET: CarShareController
+        public ActionResult<List<CarRide>> GetAllCarRides([FromQuery] DateTime? dateAndTimeFilter)
+        {
+            IEnumerable<CarRide> carRides = _dbManager.GetAllCarRides(dateAndTimeFilter);
+
+            if (!carRides.Any())
+            {
+                return NotFound("No car rides here :(");
+            }
+            return Ok(carRides);
+        }
+
+        
+
+        
+
+        
+
     }
 }

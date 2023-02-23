@@ -20,6 +20,7 @@ namespace ApiForMitLift.Models
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
+        public virtual DbSet<CarRide> CarRides { get; set; }
 
     }
 }
