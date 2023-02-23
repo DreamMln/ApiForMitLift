@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ApiForMitLift.Models
@@ -33,6 +34,7 @@ namespace ApiForMitLift.Models
         [StringLength(255)]
         public string Email { get; set; }
 
+        [JsonIgnore]
         [InverseProperty(nameof(Car.Account))]
         public virtual ICollection<Car> Cars { get; set; }
     }
