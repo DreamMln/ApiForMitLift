@@ -1,7 +1,13 @@
-﻿using ApiForMitLift.Models;
+﻿using ApiForMitLift.Login;
+using ApiForMitLift.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace ApiForMitLift.Manager
@@ -15,6 +21,9 @@ namespace ApiForMitLift.Manager
             _corolabContext = context;
 
         }
+
+
+
 
         //Vi henter en liste af Accounts
         public List<Account> GetAllAccounts()
@@ -30,6 +39,9 @@ namespace ApiForMitLift.Manager
         //Her tilføjer vi en ny account til vores database tabel. Værdierne til hvad Account indeholder er i vores Account.cs klasse i model folderen.
         public Account AddAccount(Account addAccount)
         {
+            DateTime xD = DateTime.Now;
+            string DateOfBirth = xD.ToString("dd/mm/yyyy");
+            
             _corolabContext.Accounts.Add(addAccount);
             _corolabContext.SaveChanges();
             return addAccount;
@@ -86,6 +98,7 @@ namespace ApiForMitLift.Manager
             {
                 return null;
             }
+
             account.Cars.Add(addCar);
             addCar.Account = account;
             _corolabContext.SaveChanges();
@@ -156,6 +169,16 @@ namespace ApiForMitLift.Manager
             {
                 return null;
             }
+
+            if(addRide.AvailableSeats == 0)
+            {
+                addRide.IsFull = true;
+            }
+            else
+            {
+                addRide.IsFull = false;
+            }
+
             car.CarRides.Add(addRide);
             addRide.Cars = car;
             _corolabContext.SaveChanges();
@@ -198,9 +221,16 @@ namespace ApiForMitLift.Manager
             return carRide;
         }
 
-        
+        public bool Login(LoginSessionService login, LoginService loginService, HttpContext httpContext)
+        {
+            if (login.IsLoggedIn(httpContext))
+            {
+                return true;
+            }
+            return false;
+        }
 
-       
+
 
     }
 }

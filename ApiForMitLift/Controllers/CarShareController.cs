@@ -1,7 +1,9 @@
-﻿using ApiForMitLift.Manager;
+﻿using ApiForMitLift.Login;
+using ApiForMitLift.Manager;
 using ApiForMitLift.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -210,7 +212,7 @@ namespace ApiForMitLift.Controllers
             return _dbManager.UpdateCarRide(id, value);
         }
 
-
+        
 
 
 
