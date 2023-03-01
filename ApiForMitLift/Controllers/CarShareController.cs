@@ -154,9 +154,9 @@ namespace ApiForMitLift.Controllers
         [HttpGet]
         [Route("/Api/CarRides")]
         // GET: CarShareController
-        public ActionResult<List<CarRide>> GetAllCarRides([FromQuery] DateTime? dateAndTimeFilter)
+        public ActionResult<List<CarRide>> GetAllCarRides([FromQuery] DateTime? dateAndTimeFilter, [FromQuery] string? startDestination, string? endDestination)
         {
-            IEnumerable<CarRide> carRides = _dbManager.GetAllCarRides(dateAndTimeFilter);
+            IEnumerable<CarRide> carRides = _dbManager.GetAllCarRides(dateAndTimeFilter, startDestination, endDestination);
 
             if (!carRides.Any())
             {

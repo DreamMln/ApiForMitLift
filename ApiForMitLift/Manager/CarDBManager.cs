@@ -138,7 +138,7 @@ namespace ApiForMitLift.Manager
             return car;
         }
 
-        public List<CarRide> GetAllCarRides(DateTime? dateAndTimeFilter)
+        public List<CarRide> GetAllCarRides(DateTime? dateAndTimeFilter, string? startDestination, string? endDestination)
         {
             using (var context = _corolabContext)
             {
@@ -149,6 +149,18 @@ namespace ApiForMitLift.Manager
                 //Vi sørger for at vi filtrerer i listen, så der kun bliver de biler, hvor der stadig er ledige pladser, da en fyldt bil ikke har nogen interesse for brugeren.
                 result = result.FindAll(filterItem => filterItem.IsFull.Equals(false)); //ISFULL filtrering
 
+                if (!string.IsNullOrWhiteSpace(startDestination))
+                {
+                    result = result.FindAll(filterTitle =>
+                        filterTitle.StartDestination.Contains(startDestination, StringComparison.OrdinalIgnoreCase));
+                }
+
+                //Vi filtrerer på slutdestinationen.
+                if (!string.IsNullOrWhiteSpace(endDestination))
+                {
+                    result = result.FindAll(filterTitle =>
+                        filterTitle.EndDestination.Contains(endDestination, StringComparison.OrdinalIgnoreCase));
+                }
 
                 if (dateAndTimeFilter != null) // DATO filtrering
                 {
