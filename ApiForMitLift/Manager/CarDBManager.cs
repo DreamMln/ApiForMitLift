@@ -198,9 +198,15 @@ namespace ApiForMitLift.Manager
             return carRide;
         }
 
-        
+        public Account GetAccountByEmail(string email)
+        {
+            return _corolabContext.Accounts.Where(Account => Account.Email == email).FirstOrDefault();
+        }
 
-       
+
+
+
+
 
     }
 }
