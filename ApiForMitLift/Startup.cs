@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ApiForMitLift
 {
@@ -43,6 +44,14 @@ namespace ApiForMitLift
 
             //DBContext tilføjet
             services.AddDbContext<CorolabPraktikDBContext>(opt => opt.UseSqlServer(CorolabPraktikDBContext.Connectionstring));
+
+            //add authentification - Cookie
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.Cookie.Name = "Example-cookie";
+                    //life-time, session udløber efter 10 sec
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                });
 
             //services.AddControllers().AddJsonOptions(x =>
            // x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);

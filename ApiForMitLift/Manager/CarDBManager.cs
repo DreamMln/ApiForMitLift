@@ -233,15 +233,10 @@ namespace ApiForMitLift.Manager
             return carRide;
         }
 
-        public bool Login(LoginSessionService login, LoginService loginService, HttpContext httpContext)
+        public Account GetAccountByEmail(string email)
         {
-            if (login.IsLoggedIn(httpContext))
-            {
-                return true;
-            }
-            return false;
+            return _corolabContext.Accounts.Where(Account => Account.Email == email).FirstOrDefault();
         }
-
 
 
     }
