@@ -1,7 +1,13 @@
-﻿using ApiForMitLift.Models;
+﻿using ApiForMitLift.Login;
+using ApiForMitLift.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace ApiForMitLift.Manager
@@ -15,6 +21,9 @@ namespace ApiForMitLift.Manager
             _corolabContext = context;
 
         }
+
+
+
 
         //Vi henter en liste af Accounts
         public List<Account> GetAllAccounts()
@@ -30,6 +39,9 @@ namespace ApiForMitLift.Manager
         //Her tilføjer vi en ny account til vores database tabel. Værdierne til hvad Account indeholder er i vores Account.cs klasse i model folderen.
         public Account AddAccount(Account addAccount)
         {
+            DateTime xD = DateTime.Now;
+            string DateOfBirth = xD.ToString("dd/mm/yyyy");
+            
             _corolabContext.Accounts.Add(addAccount);
             _corolabContext.SaveChanges();
             return addAccount;
@@ -86,6 +98,7 @@ namespace ApiForMitLift.Manager
             {
                 return null;
             }
+
             account.Cars.Add(addCar);
             addCar.Account = account;
             _corolabContext.SaveChanges();
@@ -125,7 +138,7 @@ namespace ApiForMitLift.Manager
             return car;
         }
 
-        public List<CarRide> GetAllCarRides(DateTime? dateAndTimeFilter)
+        public List<CarRide> GetAllCarRides(DateTime? dateAndTimeFilter, string? startDestination, string? endDestination)
         {
             using (var context = _corolabContext)
             {
@@ -136,6 +149,18 @@ namespace ApiForMitLift.Manager
                 //Vi sørger for at vi filtrerer i listen, så der kun bliver de biler, hvor der stadig er ledige pladser, da en fyldt bil ikke har nogen interesse for brugeren.
                 result = result.FindAll(filterItem => filterItem.IsFull.Equals(false)); //ISFULL filtrering
 
+                if (!string.IsNullOrWhiteSpace(startDestination))
+                {
+                    result = result.FindAll(filterTitle =>
+                        filterTitle.StartDestination.Contains(startDestination, StringComparison.OrdinalIgnoreCase));
+                }
+
+                //Vi filtrerer på slutdestinationen.
+                if (!string.IsNullOrWhiteSpace(endDestination))
+                {
+                    result = result.FindAll(filterTitle =>
+                        filterTitle.EndDestination.Contains(endDestination, StringComparison.OrdinalIgnoreCase));
+                }
 
                 if (dateAndTimeFilter != null) // DATO filtrering
                 {
@@ -156,6 +181,16 @@ namespace ApiForMitLift.Manager
             {
                 return null;
             }
+
+            if(addRide.AvailableSeats == 0)
+            {
+                addRide.IsFull = true;
+            }
+            else
+            {
+                addRide.IsFull = false;
+            }
+
             car.CarRides.Add(addRide);
             addRide.Cars = car;
             _corolabContext.SaveChanges();
@@ -202,10 +237,6 @@ namespace ApiForMitLift.Manager
         {
             return _corolabContext.Accounts.Where(Account => Account.Email == email).FirstOrDefault();
         }
-
-
-
-
 
 
     }

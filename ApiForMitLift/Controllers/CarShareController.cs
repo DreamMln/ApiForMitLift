@@ -1,9 +1,11 @@
-﻿using ApiForMitLift.Manager;
+﻿using ApiForMitLift.Login;
+using ApiForMitLift.Manager;
 using ApiForMitLift.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,9 +163,9 @@ namespace ApiForMitLift.Controllers
         [HttpGet]
         [Route("CarRides")]
         // GET: CarShareController
-        public ActionResult<List<CarRide>> GetAllCarRides([FromQuery] DateTime? dateAndTimeFilter)
+        public ActionResult<List<CarRide>> GetAllCarRides([FromQuery] DateTime? dateAndTimeFilter, [FromQuery] string? startDestination, string? endDestination)
         {
-            IEnumerable<CarRide> carRides = _dbManager.GetAllCarRides(dateAndTimeFilter);
+            IEnumerable<CarRide> carRides = _dbManager.GetAllCarRides(dateAndTimeFilter, startDestination, endDestination);
 
             if (!carRides.Any())
             {
@@ -247,7 +249,7 @@ namespace ApiForMitLift.Controllers
             HttpContext.SignOutAsync().Wait();
         }
 
-
+        
 
 
 
