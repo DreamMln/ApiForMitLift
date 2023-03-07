@@ -141,11 +141,11 @@ namespace ApiForMitLift.Controllers
         public ActionResult<Car> PostCar([FromBody] Car newCar)
         {
             //gentages der hvor man skal være logget ind for at kunne post/delete
-            if (!HttpContext.User.Identity.IsAuthenticated)
-            {
-                //fejlkode
-                return StatusCode(405);
-            }
+            //if (!HttpContext.User.Identity.IsAuthenticated)
+            //{
+            //    //fejlkode
+            //    return StatusCode(405);
+            //}
             Car createdCar = _dbManager.AddCar(newCar);
             return Ok(createdCar);
         }
