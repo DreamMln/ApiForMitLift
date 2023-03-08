@@ -222,9 +222,18 @@ namespace ApiForMitLift.Controllers
         }
         //LOGIN
         //check is user is logged in
-        
+        /// <summary>
+        /// Login med Claims, claims er stories, og i de stories, er der info om den
+        /// user der er logget ind. Alle detaljer om den user, stores i claims, username og email
+        /// claims user er læst fra HttpContext som et claims principal, hvor claims bliver indlæst fra det
+        /// derefter bliver claims skrevet ind til et HttpResponse obj.
+        /// </summary>
+        /// Claims are pieces of information about a user that have been packaged, 
+        /// signed into security tokens and sent by an issuer or identity provider 
+        /// to relying party applications through a security token service (STS).
+
         //opretter session, laver cookie mm.
-        [HttpPost]
+        [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Account> LoginCreateSession([FromForm] string email)
         {
