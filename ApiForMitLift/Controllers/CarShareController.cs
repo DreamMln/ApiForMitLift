@@ -235,21 +235,28 @@ namespace ApiForMitLift.Controllers
         //opretter session, laver cookie mm.
         [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Account> LoginCreateSession([FromForm] string email)
+        public ActionResult<string> LoginCreateSession([FromForm] string email)
         {
             if (_dbManager.GetAccountByEmail(email) == null)
             {
                 return StatusCode(404);
             }
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, "userName")
-            };
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            var authentificationProps = new AuthenticationProperties();
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authentificationProps).Wait();
+            //dic - nøgle
+            HttpContext.Session.SetString("email", email);
+            //var claims = new List<Claim>
+            //{
+            //    new Claim(ClaimTypes.Name, email)
+            //};
+            //var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //var principal = new ClaimsPrincipal(identity);
+            //var authentificationProps = new AuthenticationProperties();
+            //HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authentificationProps).Wait();
             return Ok();
+        }
+        [HttpGet("Login")]
+        public string GetLoginUser()
+        {
+            return HttpContext.Session.GetString("email");
         }
         //log out
         [HttpPost("Signout")]

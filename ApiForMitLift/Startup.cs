@@ -46,12 +46,20 @@ namespace ApiForMitLift
             services.AddDbContext<CorolabPraktikDBContext>(opt => opt.UseSqlServer(CorolabPraktikDBContext.Connectionstring));
 
             //add authentification - Cookie
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
-                    options.Cookie.Name = "Example-cookie";
-                    //life-time, session udløber efter 10 sec
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-                });
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(options => {
+            //        options.Cookie.Name = "Example-cookie";
+            //        //life-time, session udløber efter 10 sec
+            //        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+            //    });
+            //Session/cookie
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             //services.AddControllers().AddJsonOptions(x =>
            // x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -79,6 +87,8 @@ namespace ApiForMitLift
             app.UseCors("allowAll");
 
             app.UseAuthorization();
+            //Use the session
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
