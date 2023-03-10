@@ -8,7 +8,7 @@ namespace ApiForMitLift.Models
 {
     public class CorolabPraktikDBContext : DbContext
     {
-        public static readonly string Connectionstring = "Server=tcp:praktikdbserver.database.windows.net,1433;Initial Catalog=MitLiftDB;Persist Security Info=False;User ID=Praktik2023;Password=Corolab1;";
+        public static readonly string Connectionstring = "Server=tcp:corolabserver.database.windows.net,1433;Initial Catalog=corolabDB;Persist Security Info=False;User ID=CloudSA44cfc0bb;Password=Corolab1;";
         //public CorolabPraktikDBContext()
         //{
         //}
