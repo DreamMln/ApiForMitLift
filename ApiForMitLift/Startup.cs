@@ -38,10 +38,9 @@ namespace ApiForMitLift
             // CORS add to restbik
             //vi har lavet en policy
             services.AddCors(options => options.AddPolicy("allowAll",
-                builder => builder.WithOrigins("http://127.0.0.1:5500")
+                builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()));
+                    .AllowAnyHeader()));
 
             //DBContext tilføjet
             services.AddDbContext<CorolabPraktikDBContext>(opt => opt.UseSqlServer(CorolabPraktikDBContext.Connectionstring));
