@@ -1,14 +1,8 @@
-﻿using ApiForMitLift.Login;
-using ApiForMitLift.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
+﻿using ApiForMitLift.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
+
 
 namespace ApiForMitLift.Manager
 {
@@ -58,7 +52,6 @@ namespace ApiForMitLift.Manager
         public Account DeleteAccount(int id)
         {
             Account account = _corolabContext.Accounts.Find(id);
-            // Car car = _corolabContext.Cars.Find(id);
             _corolabContext.Accounts.Remove(account);
             _corolabContext.SaveChanges();
             return account;
@@ -119,7 +112,6 @@ namespace ApiForMitLift.Manager
         public Car DeleteCar(int id)
         {
             Car car = _corolabContext.Cars.Find(id);
-            // Car car = _corolabContext.Cars.Find(id);
             _corolabContext.Cars.Remove(car);
             _corolabContext.SaveChanges();
             return car;
@@ -211,7 +203,6 @@ namespace ApiForMitLift.Manager
         public CarRide DeleteCarRide(int id)
         {
             CarRide carRide = _corolabContext.CarRides.Find(id);
-            // Car car = _corolabContext.Cars.Find(id);
             _corolabContext.CarRides.Remove(carRide);
             _corolabContext.SaveChanges();
             return carRide;
