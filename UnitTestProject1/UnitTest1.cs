@@ -69,7 +69,6 @@ namespace MitLiftSeleniumTest
             WebElement prisElement = (WebElement)_driver.FindElement(By.Id("Pris"));
             prisElement.SendKeys(Keys.Backspace);
             prisElement.SendKeys("100");
-            Thread.Sleep(1000);
 
             //Her finder vi vores input felt til dato og tidspunkt. Her skal vi dele vores tekst op i flere dele
             //da vi skal trykke tab for at komme over til tidspunkt.
@@ -77,18 +76,14 @@ namespace MitLiftSeleniumTest
             datoElement.SendKeys("24032023");
             datoElement.SendKeys(Keys.Tab);
             datoElement.SendKeys("1730");
-            Thread.Sleep(1000);
 
             _driver.FindElement(By.Id("startDestination")).SendKeys("Roskilde");
-            Thread.Sleep(1000);
 
             _driver.FindElement(By.Id("endDestination")).SendKeys("Holbæk");
-            Thread.Sleep(1000);
             
             WebElement sædeElement = (WebElement)_driver.FindElement(By.Id("quantity"));
             sædeElement.SendKeys(Keys.Backspace);
             sædeElement.SendKeys("3");
-            Thread.Sleep(1000);
 
             WebElement bilElement = (WebElement) _driver.FindElement(By.Id("vælgBil"));
             bilElement.SendKeys("O");
@@ -123,6 +118,10 @@ namespace MitLiftSeleniumTest
                 throw new ArgumentOutOfRangeException("Element ikke fundet");
             }
             
+            Thread.Sleep(1000);
+
+            _driver.Navigate().Back();
+
             Thread.Sleep(10000);
         }
     }
