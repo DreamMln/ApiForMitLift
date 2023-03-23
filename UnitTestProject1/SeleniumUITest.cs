@@ -126,7 +126,7 @@ namespace MitLiftSeleniumTest
 
             lastCardElement.FindElements(By.Id("deleteButton")).ElementAt(CardElement.Count() - 1).Click();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             
             _driver.FindElement(By.Id("deleteRideModal")).Click();
 
