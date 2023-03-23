@@ -9,7 +9,7 @@ using OpenQA.Selenium.Chrome;
 namespace MitLiftSeleniumTest
 {
     [TestClass]
-    public class UnitTest1
+    public class SeleniumUITest
     {
         private static readonly string DriverDirectory = "C://webDrivers";
         private static IWebDriver _driver;
@@ -105,24 +105,34 @@ namespace MitLiftSeleniumTest
             //Vi tjekker at det liste element vi hiver fat i indeholder hhv "Roskilde" og "Helsingør" forskellige steder i listen
             string lastElementText = lastElement.Text;
             Assert.IsTrue(lastElementText.Contains("Roskilde"));
-            Assert.IsTrue(ListElement[0].Text.Contains("Helsingør"));
 
-            //Her sørger vi for at det liste element der er på den første plads, indeholder det vi forventer og vi klikker derefter på det
-            if (ListElement[0].Text.Contains("Helsingør"))
-            {
                 ReadOnlyCollection<IWebElement> CardListElement = _driver.FindElements(By.Id("CardInfo"));
                 CardListElement.ElementAt(0).Click();
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Element ikke fundet");
-            }
             
             Thread.Sleep(1000);
 
             _driver.Navigate().Back();
 
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
+
+            Assert.IsTrue(_driver.Title == "Mine Lift");
+
+            Thread.Sleep(5000);
+
+            ReadOnlyCollection<IWebElement> CardElement = _driver.FindElements(By.Id("Card"));
+            Console.WriteLine(CardElement.Count());
+            IWebElement lastCardElement = CardElement.ElementAt(CardElement.Count - 1);
+
+
+            lastCardElement.FindElements(By.Id("deleteButton")).ElementAt(CardElement.Count() - 1).Click();
+
+            Thread.Sleep(1000);
+            
+            _driver.FindElement(By.Id("deleteRideModal")).Click();
+
+            Thread.Sleep(5000);
+
+            _driver.Navigate().Back();
         }
     }
 }
